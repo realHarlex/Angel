@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malak 💗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fff8f5;
+    --blush:#f7dde3;
+    --rose:#c4436d;
+    --deep-rose:#9c2f52;
+    --plum:#3d1f2b;
+    --gold:#d4a857;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    background: radial-gradient(circle at 50% 0%, #fdf0f0 0%, var(--cream) 45%, #f6e2e6 100%);
+    font-family:'Cormorant Garamond', serif;
+    color:var(--plum);
+    overflow-x:hidden;
+  }
+
+  /* Floating hearts background */
+  .hearts-field{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    overflow:hidden;
+  }
+
+  .heart{
+    position:absolute;
+    bottom:-10%;
+    opacity:0;
+    animation: rise linear infinite;
+    color: var(--rose);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    white-space:nowrap;
+  }
+
+  .heart.burst{
+    animation: rise linear forwards;
+  }
+
+  .heart svg{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+
+  .heart .heart-label{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--cream);
+    font-size:0.62em;
+    letter-spacing:0.01em;
+    text-shadow: 0 1px 3px rgba(61,31,43,0.35);
+    pointer-events:none;
+  }
+
+  @keyframes rise{
+    0%{
+      transform: translateY(0) translateX(0) rotate(0deg) scale(var(--s,1));
+      opacity:0;
+    }
+    8%{
+      opacity: var(--o, 0.6);
+    }
+    92%{
+      opacity: var(--o, 0.6);
+    }
+    100%{
+      transform: translateY(-115vh) translateX(var(--drift,20px)) rotate(var(--rot,15deg)) scale(var(--s,1));
+      opacity:0;
+    }
+  }
+
+  main{
+    position:relative;
+    z-index:2;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding: 8vh 6vw 10vh;
+    text-align:center;
+  }
+
+  .eyebrow{
+    font-family:'Cormorant Garamond', serif;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    font-size:0.78rem;
+    color:var(--deep-rose);
+    margin-bottom:1.4rem;
+    opacity:0.85;
+  }
+
+  h1.name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:clamp(3.2rem, 11vw, 7rem);
+    color:var(--rose);
+    margin:0;
+    line-height:1;
+    text-shadow: 0 2px 24px rgba(196,67,109,0.25);
+    letter-spacing:0.01em;
+  }
+
+  .name-sub{
+    margin-top:0.9rem;
+    font-size:clamp(1.05rem, 2.4vw, 1.4rem);
+    color:var(--plum);
+    opacity:0.75;
+    font-style:italic;
+  }
+
+  .divider{
+    width:64px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin:2.6rem 0;
+  }
+
+  .heart-button{
+    position:relative;
+    width:120px;
+    height:110px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    transition: transform 0.35s ease;
+  }
+
+  .heart-button:hover{
+    transform: scale(1.06);
+  }
+
+  .heart-button:active{
+    transform: scale(0.96);
+  }
+
+  .heart-button svg{
+    width:100%;
+    height:100%;
+    filter: drop-shadow(0 8px 22px rgba(196,67,109,0.35));
+  }
+
+  .heart-button .beat{
+    transform-origin:center;
+    animation: beat 1.7s ease-in-out infinite;
+  }
+
+  @keyframes beat{
+    0%, 100%{ transform:scale(1); }
+    15%{ transform:scale(1.09); }
+    30%{ transform:scale(0.98); }
+    45%{ transform:scale(1.06); }
+    60%{ transform:scale(1); }
+  }
+
+  .prompt-text{
+    margin-top:1.2rem;
+    font-size:1rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--deep-rose);
+    opacity:0.7;
+  }
+
+  /* Yes / No question buttons */
+  .qa-buttons{
+    display:flex;
+    gap:1.4rem;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    position:relative;
+    min-height:64px;
+  }
+
+  .qa-btn{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.25rem;
+    letter-spacing:0.03em;
+    padding: 0.85rem 2.2rem;
+    border-radius:999px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.2s ease;
+  }
+
+  .qa-yes{
+    background: var(--rose);
+    color: var(--cream);
+    box-shadow: 0 10px 26px rgba(196,67,109,0.35);
+  }
+
+  .qa-yes:hover{
+    transform: scale(1.06);
+    box-shadow: 0 14px 32px rgba(196,67,109,0.45);
+  }
+
+  .qa-no{
+    background: transparent;
+    color: var(--deep-rose);
+    border-color: var(--blush);
+    position: relative;
+    z-index:5;
+  }
+
+  .qa-no.dodging{
+    position: fixed;
+    transition: transform 0.28s ease, top 0.28s ease, left 0.28s ease;
+  }
+
+  /* Letter overlay */
+  .letter-overlay{
+    position:fixed;
+    inset:0;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 5vh 5vw;
+    background: rgba(61, 31, 43, 0.35);
+    backdrop-filter: blur(6px);
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.5s ease;
+  }
+
+  .letter-overlay.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .letter{
+    position:relative;
+    max-width:560px;
+    width:100%;
+    max-height:85vh;
+    overflow-y:auto;
+    background: var(--cream);
+    border-radius:6px;
+    padding: clamp(2.2rem, 5vw, 3.6rem) clamp(1.8rem, 6vw, 3.4rem);
+    box-shadow: 0 30px 80px rgba(61,31,43,0.4);
+    transform: translateY(30px) scale(0.96);
+    transition: transform 0.55s cubic-bezier(.2,.8,.2,1);
+    text-align:left;
+  }
+
+  .letter-overlay.open .letter{
+    transform: translateY(0) scale(1);
+  }
+
+  .letter::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:6px;
+    background: linear-gradient(90deg, var(--gold), var(--rose), var(--gold));
+    border-radius:6px 6px 0 0;
+  }
+
+  .close-btn{
+    position:absolute;
+    top:16px;
+    right:18px;
+    background:none;
+    border:none;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.6rem;
+    color:var(--deep-rose);
+    cursor:pointer;
+    line-height:1;
+    opacity:0.6;
+    transition: opacity 0.2s ease;
+  }
+
+  .close-btn:hover{ opacity:1; }
+
+  .letter-eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:0.6rem;
+  }
+
+  .letter h2{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--rose);
+    font-size:clamp(1.7rem, 4vw, 2.3rem);
+    margin:0 0 1.4rem 0;
+  }
+
+  .letter p{
+    font-size:clamp(1.08rem, 2.6vw, 1.28rem);
+    line-height:1.75;
+    color:var(--plum);
+    margin:0 0 1.1rem 0;
+  }
+
+  .letter .signature{
+    margin-top:1.8rem;
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-size:1.5rem;
+    color:var(--rose);
+    text-align:right;
+  }
+
+  .letter .signature span{
+    display:block;
+    font-family:'Cormorant Garamond', serif;
+    font-style:normal;
+    font-size:0.75rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--deep-rose);
+    opacity:0.7;
+    margin-top:0.3rem;
+  }
+
+  footer{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding-bottom:3rem;
+    font-size:0.78rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--deep-rose);
+    opacity:0.55;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .heart{ animation:none; opacity:0; }
+    .heart-button .beat{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hearts-field" id="heartsField"></div>
+
+<!-- Question screen -->
+<main id="questionScreen">
+  <div class="eyebrow">a very important question</div>
+  <h1 class="name" id="questionTitle">Do you love me?</h1>
+  <p class="name-sub" id="questionSub">be honest malak 👀</p>
+
+  <div class="divider"></div>
+
+  <div class="qa-buttons">
+    <button class="qa-btn qa-yes" id="yesBtn">Yes 💗</button>
+    <button class="qa-btn qa-no" id="noBtn">No</button>
+  </div>
+
+  <div class="prompt-text" id="teaseText" style="min-height:1.4em;"></div>
+</main>
+
+<!-- Main content, revealed after answering -->
+<main id="mainScreen" style="display:none;">
+  <div class="eyebrow" id="resultEyebrow">for my love</div>
+  <h1 class="name">Malak</h1>
+  <p class="name-sub" id="resultSub">my angel, my heart, my always</p>
+
+  <div class="divider"></div>
+
+  <button class="heart-button" id="heartBtn" aria-label="Open your letter">
+    <svg viewBox="0 0 100 90" class="beat">
+      <path d="M50 85
+               C 20 60, 2 40, 2 22
+               C 2 6, 16 -2, 30 3
+               C 40 7, 47 15, 50 22
+               C 53 15, 60 7, 70 3
+               C 84 -2, 98 6, 98 22
+               C 98 40, 80 60, 50 85 Z"
+            fill="var(--rose)" />
+    </svg>
+  </button>
+  <div class="prompt-text" id="mainPromptText">tap the heart</div>
+</main>
+
+<footer>made with love, for malak</footer>
+
+<div class="letter-overlay" id="letterOverlay">
+  <div class="letter">
+    <button class="close-btn" id="closeBtn" aria-label="Close">✕</button>
+    <div class="letter-eyebrow">a small note</div>
+    <h2>To my Malak,</h2>
+    <p>From the moment you came into my life, everything felt softer, warmer, brighter. You are the calm in my noise and the smile I look for in every room.</p>
+    <p>I love the way you laugh, the way you care for everyone around you, and the way you make even ordinary days feel like something worth remembering.</p>
+    <p>No matter the distance or the day, my heart is always finding its way back to you.</p>
+    <p style="font-style:italic; color:var(--rose); font-size:1.4em; margin-top:1.6rem;">I love you, Malak. Today, tomorrow, always.</p>
+    <div class="signature">Hamza<span>with all my heart</span></div>
+  </div>
+</div>
+
+<script>
+  // Generate floating hearts
+  const field = document.getElementById('heartsField');
+  const heartPath = "M50 85 C 20 60, 2 40, 2 22 C 2 6, 16 -2, 30 3 C 40 7, 47 15, 50 22 C 53 15, 60 7, 70 3 C 84 -2, 98 6, 98 22 C 98 40, 80 60, 50 85 Z";
+  const colors = ['#c4436d', '#d4a857', '#e58aa5', '#9c2f52'];
+  const petNames = ['my heart', 'my angel', 'i love you', 'kanbghek', 'hbiba', 'honey'];
+
+  function makeHeart(opts = {}) {
+    const heart = document.createElement('div');
+    heart.className = 'heart' + (opts.burst ? ' burst' : '');
+
+    const withLabel = !!opts.label;
+    const size = withLabel ? (70 + Math.random() * 40) : (10 + Math.random() * 22);
+    const left = opts.left !== undefined ? opts.left : Math.random() * 100;
+    const duration = opts.duration || (10 + Math.random() * 12);
+    const delay = opts.delay !== undefined ? opts.delay : Math.random() * 14;
+    const drift = (Math.random() * 140 - 70) + 'px';
+    const rot = (Math.random() * 60 - 30) + 'deg';
+    const scale = (0.6 + Math.random() * 0.9).toFixed(2);
+    const opacity = withLabel ? (0.85).toFixed(2) : (0.25 + Math.random() * 0.35).toFixed(2);
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    heart.style.left = left + 'vw';
+    heart.style.width = size + 'px';
+    heart.style.height = size + 'px';
+    heart.style.animationDuration = duration + 's';
+    heart.style.animationDelay = delay + 's';
+    heart.style.setProperty('--drift', drift);
+    heart.style.setProperty('--rot', rot);
+    heart.style.setProperty('--s', scale);
+    heart.style.setProperty('--o', opacity);
+    heart.style.color = color;
+    heart.style.zIndex = withLabel ? '6' : '1';
+
+    heart.innerHTML = `<svg viewBox="0 0 100 90"><path d="${heartPath}" fill="currentColor"/></svg>`;
+
+    if (withLabel) {
+      const label = document.createElement('span');
+      label.className = 'heart-label';
+      label.textContent = opts.label;
+      heart.appendChild(label);
+    }
+
+    field.appendChild(heart);
+
+    if (opts.burst) {
+      setTimeout(() => heart.remove(), (duration + delay) * 1000 + 500);
+    }
+  }
+
+  const ambientCount = window.innerWidth < 600 ? 14 : 22;
+  for (let i = 0; i < ambientCount; i++) {
+    makeHeart();
+  }
+
+  function spawnHeartBurst() {
+    const burstCount = window.innerWidth < 600 ? 22 : 34;
+    for (let i = 0; i < burstCount; i++) {
+      const label = petNames[i % petNames.length];
+      makeHeart({
+        burst: true,
+        label: label,
+        left: Math.random() * 96,
+        duration: 7 + Math.random() * 6,
+        delay: Math.random() * 3.5
+      });
+    }
+  }
+
+  // Letter open/close
+  const overlay = document.getElementById('letterOverlay');
+  const heartBtn = document.getElementById('heartBtn');
+  const closeBtn = document.getElementById('closeBtn');
+
+  heartBtn.addEventListener('click', () => {
+    overlay.classList.add('open');
+  });
+
+  closeBtn.addEventListener('click', () => {
+    overlay.classList.remove('open');
+  });
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('open');
+    }
+  });
+
+  // Do you love me? question flow
+  const questionScreen = document.getElementById('questionScreen');
+  const mainScreen = document.getElementById('mainScreen');
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const teaseText = document.getElementById('teaseText');
+  const resultEyebrow = document.getElementById('resultEyebrow');
+  const resultSub = document.getElementById('resultSub');
+  const mainPromptText = document.getElementById('mainPromptText');
+
+  const teases = [
+    "nice try 😏",
+    "nope, not letting you off that easy",
+    "come on malak...",
+    "the button says no thank you",
+    "still no? okay then",
+    "alright, catch it if you can"
+  ];
+
+  let attempts = 0;
+  const maxDodge = 5;
+
+  function dodgeNo(){
+    noBtn.classList.add('dodging');
+    const btnW = noBtn.offsetWidth || 120;
+    const btnH = noBtn.offsetHeight || 50;
+    const margin = 24;
+    const maxX = window.innerWidth - btnW - margin;
+    const maxY = window.innerHeight - btnH - margin;
+    const x = Math.max(margin, Math.random() * maxX);
+    const y = Math.max(margin, Math.random() * maxY);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+    noBtn.style.margin = '0';
+  }
+
+  function showResult(isYes){
+    questionScreen.style.display = 'none';
+    mainScreen.style.display = 'flex';
+
+    if (isYes){
+      resultEyebrow.textContent = 'for my love';
+      resultSub.textContent = 'my angel, my heart, my always';
+      mainPromptText.textContent = 'tap the heart';
+    } else {
+      resultEyebrow.textContent = 'okay fine, be that way';
+      resultSub.textContent = "you never actually caught the 'no' button... so this counts as a yes lol";
+      mainPromptText.textContent = 'tap the heart anyway';
+    }
+
+    spawnHeartBurst();
+    setInterval(spawnHeartBurst, 9000);
+  }
+
+  yesBtn.addEventListener('click', () => showResult(true));
+
+  function handleNoInteraction(){
+    if (attempts < maxDodge){
+      dodgeNo();
+      teaseText.textContent = teases[Math.min(attempts, teases.length - 1)];
+      attempts++;
+    } else {
+      showResult(false);
+    }
+  }
+
+  noBtn.addEventListener('mouseenter', () => {
+    if (attempts < maxDodge){
+      handleNoInteraction();
+    }
+  });
+
+  noBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    handleNoInteraction();
+  });
+
+  window.addEventListener('resize', () => {
+    if (noBtn.classList.contains('dodging')){
+      dodgeNo();
+    }
+  });
+</script>
+
+</body>
+</html>
